@@ -1,1 +1,1 @@
-# proyecto_simple_SpringBoot
+# proyecto de un listado de perosnas utilizando MVC, JDBC, spring segurity
