@@ -1,0 +1,48 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"><!--para usar thymeleaf tenes "importarlo"-->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>inicio</title>
+</head>
+<body>
+    <header th:replace="layout/plantilla :: header"></header>
+
+    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/agregar}"> [[#{accion.agregar}]]</a>
+
+    <form th:action="@{/traer}" method="get">
+        <input type="text" placeholder="Search" name="nombre" th:value="${nombre}">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+
+    <div th:if = "${personas != null and !personas.empty}"> <!--informacion que salva vidas: todo entre comillas y las condiciones igual que en java  -->
+        <table border="1">
+            <tr>
+                <th>[[#{persona.id}]]</th>
+                <th>[[#{persona.nombre}]]</th>
+                <th>[[#{persona.apellido}]]</th>
+                <th>[[#{persona.mail}]]</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">[[#{accion.eliminar}]]</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">[[#{accion.editar}]]</th>
+                
+            </tr>  
+            <tr th:each="persona : ${personas}">
+                <!--es un for each-->
+                <td th:text="${persona.getIdPersona()}">mostrar el id</td>
+                <td th:text="${persona.getNombre()}">>muestrar el nombre</td>
+                <td th:text="${persona.getApellido()}">mostrar el apellido</td>
+                <td th:text="${persona.getMail()}">mostrar el Email</td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/eliminar(idPersona=${persona.idPersona})}" th:text="#{accion.eliminar}"></a></td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/editar/} + ${persona.idPersona}" th:text="#{accion.editar}"></a></td>
+                
+            </tr>
+        </table>
+    </div>
+    <div th:if="${personas == null or personas.empty}">
+        <p>[[#{accion.vacio}]]</p>
+    </div>
+
+    <footer th:replace="layout/plantilla :: footer"></footer>
+</body>
+</html>

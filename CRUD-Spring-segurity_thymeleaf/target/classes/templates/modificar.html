@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar</title>
+</head>
+<body>
+    <header th:replace="layout/plantilla :: header"></header>
+
+    <h2>[[#{formulario.titulo}]]</h2>
+    <p>[[#{formulario.mensaje}]]</p>
+
+    <form th:action="@{/guardar}" method="post" th:object="${persona}">
+        <input type="hidden" name="idPersona" th:field="*{idPersona}">
+
+        <label for="nombre">[[#{persona.nombre}]]</label>
+        <input type="text" name="nombre" th:field="*{nombre}">
+        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">Error en el nombre</span>
+        <br>
+        <label for="apellido">[[#{persona.apellido}]]</label>
+        <input type="text" name="apellido" th:field="*{apellido}">
+        <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}">Error en el apellido</span>
+        <br>
+        <label for="mail">[[#{persona.mail}]]</label>
+        <input type="text" name="mail" th:field="*{mail}">
+        <span th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}">Error en el mail</span>
+        <br>
+        <input type="submit" name="guardar" th:value="#{accion.guardar}">
+    </form>
+        
+    
+    <a th:href="@{/}">[[#{accion.volver}]]</a>
+
+    <footer th:replace="layout/plantilla :: footer"></footer>
+</body>
+</html>
